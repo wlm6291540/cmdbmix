@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}角色管理{% endblock %}
+
+{% block include_css %}
+    <!-- jsGrid -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/jsgrid/jsgrid.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/jsgrid/jsgrid-theme.min.css') }}">
+{% endblock %}
+
+{% block currentPage %}角色管理{% endblock %}
+{% block topPage %}系统管理{% endblock %}
+{% block secondPage %}角色管理{% endblock %}
+
+{% block content %}
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">角色列表</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="role-table" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>名称</th>
+                        <th>描述</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for role in roles %}
+                        <tr>
+                            <td>{{ role.id }}</td>
+                            <td>{{ role.name }}</td>
+                            <td>{{ role.desc }}</td>
+                            <td style="width: 290px;">
+                                <a type="button" class="btn btn-outline-primary ml-1"
+                                   href="{{ url_for('role.bind_user') }}">修改</a>
+                                <a type="button" class="btn btn-outline-success ml-1"
+                                   href="{{ url_for('role.bind_user') }}">绑定用户</a>
+                                <a type="button" class="btn btn-outline-info ml-1"
+                                   href="{{ url_for('role.bind_user') }}">绑定权限</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+{% endblock %}
+
+{% block include_js %}
+    <script src="{{ url_for('static', filename='plugins/jsgrid/jsgrid.min.js') }}"></script>
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+    </script>
+{% endblock %}
