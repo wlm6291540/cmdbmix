@@ -17,3 +17,9 @@ def home():
 @login_required
 def about():
     return render_template('home.html')
+
+
+@main_bp.route('/test', methods=['GET'])
+@login_required
+def test():
+    return render_template('test.html')

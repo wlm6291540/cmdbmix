@@ -20,6 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='logo-blue.png') }}">
     {% block include_css %}{% endblock %}
+    {% block style %}{% endblock %}
 </head>
 <body class="hold-transition sidebar-mini">
 

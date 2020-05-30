@@ -2,3 +2,19 @@ nav.mt-2 ul.nav.nav-pills.nav-sidebar.flex-column li.nav-item.menu-open ul.nav.n
     background: rgb(81, 89, 98);
 }
 
+
+.vertical-middle {
+    display: flex;
+    justify-content: center;
+}
+
+.vertical-middle div a {
+    display: block;
+}
+
+
+.transfer-item {
+    position: relative;
+    display: block;
+    padding: .5em 2.3em;
+}
