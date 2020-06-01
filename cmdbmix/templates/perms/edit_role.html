@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}角色编辑{% endblock %}
+
+{% block style %}
+    <style type="text/css">
+
+    </style>
+{% endblock %}
+
+
+{% block currentPage %}角色编辑{% endblock %}
+{% block topPage %}系统管理{% endblock %}
+{% block secondPage %}角色编辑{% endblock %}
+
+{% block content %}
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6">
+                        <div class="card">
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form role="form" action="{{ url_for('role.edit_role', role_id=role.id) }}" method="post">
+                                {{ form.csrf_token() }}
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="name">角色名称</label>
+                                        <input type="text"
+                                               class="form-control {% if form.name.errors %}is-invalid{% endif %}"
+                                               id="name" name="name" placeholder="输入名称"
+                                               aria-describedby="name-error" value="{{ user.name }}">
+                                        <span id="name-error" class="error invalid-feedback">
+                                            {{ ','.join(form.name.errors) }}
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="desc">角色描述</label>
+                                        <textarea id="desc" name="desc"
+                                                  class="form-control{% if form.desc.errors %}is-invalid{% endif %}"
+                                                  placeholder="输入描述" aria-describedby="desc-error"
+                                                  value="{{ form.name.data }}">{{ user.desc }}</textarea>
+                                        <span id="desc-error" class="error invalid-feedback"></span>
+                                        {{ ','.join(form.name.errors) }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <a type="button" class="btn btn-primary float-right"
+                                       href="{{ url_for('role.role_manager') }}">返回</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+
+    </script>
+{% endblock %}

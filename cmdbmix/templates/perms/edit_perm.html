@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}权限编辑{% endblock %}
+
+{% block style %}
+    <style type="text/css">
+
+    </style>
+{% endblock %}
+
+
+{% block currentPage %}权限编辑{% endblock %}
+{% block topPage %}系统管理{% endblock %}
+{% block secondPage %}权限编辑{% endblock %}
+
+{% block content %}
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6">
+                        <div class="card">
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form role="form" action="{{ url_for('perm.edit_perm', perm_id=perm.id) }}" method="post">
+                                {{ form.csrf_token() }}
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="name">权限名</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="name" name="name" placeholder="输入名称"
+                                               value="{{ perm.name }}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="url"></label>
+                                        <input type="url"
+                                               class="form-control"
+                                               id="url" name="url" placeholder="输入url"
+                                               aria-describedby="nickname-error"
+                                               value="{{ perm.url | replace(None, '') }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="type">类型</label>
+                                        <select id="type" name="type" class="form-control">
+                                            <option>请选择</option>
+                                            <option value="页面" {% if perm.type == '页面' %}selected{% endif %}>页面</option>
+                                            <option value="操作" {% if perm.type == '操作' %}selected{% endif %}>操作</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="desc">备注</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="dsec" name="desc" placeholder="输入备注"
+                                               aria-describedby="desc-error"
+                                               value="{{ perm.desc | replace(None, '') }}">
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">保存</button>
+                                    <a type="button" class="btn btn-primary float-right"
+                                       href="{{ url_for('perm.perm_manager') }}">返回</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+
+    </script>
+{% endblock %}

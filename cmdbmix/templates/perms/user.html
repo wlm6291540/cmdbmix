@@ -9,18 +9,81 @@
 
     <!-- Main content -->
     <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <h2>Home</h2>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">用户列表</h3>
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="role-table" class="table table-bordered table-hover text-center">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>用户名</th>
+                        <th>角色</th>
+                        <th>用户昵称</th>
+                        <th>邮箱</th>
+                        <th>头像</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>
+                                {% if user.role %}
+                                    {{ user.role.name }}
+                                {% else %}
+                                    无
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if user.nickname %}
+                                    {{ user.nickname }}
+                                {% else %}
+                                    无
+                                {% endif %}
+                            </td>
+                            <td>{{ user.email }}</td>
+                            <td><img src="{{ user.gravatar }}" class="logo-sm"></td>
+                            <td>
+                                {% if user.is_active %}
+                                    <span class="badge badge-pill badge-success">已激活</span>
+                                {% else %}
+                                    <span class="badge badge-pill badge-warning">已禁用</span>
+                                {% endif %}
+                            </td>
+                            <td style="width: 290px;">
+                                <a type="button" class="btn btn-primary ml-1"
+                                   href="{{ url_for('user.edit_user', user_id=user.id) }}">修改</a>
+                                {% if not user.is_active %}
+                                    <a type="button" class="btn btn-success ml-1"
+                                       href="{{ url_for('user.active_user', user_id=user.id) }}">激活</a>
+                                {% else %}
+                                    <a type="button" class="btn btn-danger ml-1"
+                                       href="{{ url_for('user.active_user', user_id=user.id) }}">禁用</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
     </div>
     <!-- /.content -->
 {% endblock %}
 
+{% block include_js %}
+    <script src="{{ url_for('static', filename='plugins/jsgrid/jsgrid.min.js') }}"></script>
+{% endblock %}
+
 {% block scripts %}
     <script type="text/javascript">
-
     </script>
 {% endblock %}

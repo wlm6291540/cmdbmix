@@ -18,3 +18,8 @@ nav.mt-2 ul.nav.nav-pills.nav-sidebar.flex-column li.nav-item.menu-open ul.nav.n
     display: block;
     padding: .5em 2.3em;
 }
+
+.logo-sm {
+    width: 32px;
+    height: auto;
+}

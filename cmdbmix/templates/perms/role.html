@@ -39,11 +39,11 @@
                             <td>{{ role.desc }}</td>
                             <td style="width: 290px;">
                                 <a type="button" class="btn btn-outline-primary ml-1"
-                                   href="{{ url_for('role.bind_user') }}">修改</a>
+                                   href="{{ url_for('role.edit_role', role_id=role.id) }}">修改</a>
                                 <a type="button" class="btn btn-outline-success ml-1"
-                                   href="{{ url_for('role.bind_user') }}">绑定用户</a>
+                                   href="{{ url_for('role.bind_user', role_id=role.id) }}">绑定用户</a>
                                 <a type="button" class="btn btn-outline-info ml-1"
-                                   href="{{ url_for('role.bind_user') }}">绑定权限</a>
+                                   href="{{ url_for('role.bind_perms', role_id=role.id) }}">绑定权限</a>
                             </td>
                         </tr>
                     {% endfor %}

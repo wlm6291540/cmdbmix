@@ -10,18 +10,59 @@
 
     <!-- Main content -->
     <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <h2>权限管理</h2>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">权限列表</h3>
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="role-table" class="table table-bordered table-hover text-center">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>权限名</th>
+                        <th>URL</th>
+                        <th>类型</th>
+                        <th>描述</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for perm in perms %}
+                        <tr>
+                            <td>{{ perm.id }}</td>
+                            <td>{{ perm.name }}</td>
+                            <td>{{ perm.url }}</td>
+                            <td>{{ perm.type }}</td>
+                            <td>
+                                {% if perm.desc %}
+                                    {{ perm.desc }}
+                                {% else %}
+                                    无
+                                {% endif %}
+                            </td>
+                            <td style="width: 290px;">
+                                <a type="button" class="btn btn-primary ml-1"
+                                   href="{{ url_for('perm.edit_perm', perm_id=perm.id) }}">修改</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
     </div>
     <!-- /.content -->
 {% endblock %}
 
+
+{% block include_js %}
+    <script src="{{ url_for('static', filename='plugins/jsgrid/jsgrid.min.js') }}"></script>
+{% endblock %}
+
 {% block scripts %}
     <script type="text/javascript">
-
     </script>
 {% endblock %}

@@ -64,7 +64,8 @@ class Role(db.Model, BaseModel):
 
 class Permission(db.Model, BaseModel):
     id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.String(255), unique=True)
+    name = db.Column(db.String(64), unique=True)
+    url = db.Column(db.String(255))
     type = db.Column(db.String(32))
     desc = db.Column(db.String(255))
     roles = db.relationship('Role', secondary=role_permission, back_populates='permissions')
