@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from 'macros/pagination.html' import render_pagination %}
 
 {% block title %}用户管理{% endblock %}
 {% block currentPage %}用户管理{% endblock %}
@@ -15,6 +16,9 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+                <div class="row operation mb-4">
+                    <a type="button" class="btn btn-success ml-2" href="{{ url_for('user.add_user') }}">添加</a>
+                </div>
                 <table id="role-table" class="table table-bordered table-hover text-center">
                     <thead>
                     <tr>
@@ -33,37 +37,29 @@
                         <tr>
                             <td>{{ user.id }}</td>
                             <td>{{ user.username }}</td>
-                            <td>
-                                {% if user.role %}
-                                    {{ user.role.name }}
-                                {% else %}
-                                    无
-                                {% endif %}
+                            <td>{% if user.role %}{{ user.role.name }}{% else %}无{% endif %}
                             </td>
-                            <td>
-                                {% if user.nickname %}
-                                    {{ user.nickname }}
-                                {% else %}
-                                    无
-                                {% endif %}
-                            </td>
+                            <td>{% if user.nickname %}{{ user.nickname }}{% else %}无{% endif %}</td>
                             <td>{{ user.email }}</td>
                             <td><img src="{{ user.gravatar }}" class="logo-sm"></td>
                             <td>
                                 {% if user.is_active %}
                                     <span class="badge badge-pill badge-success">已激活</span>
                                 {% else %}
-                                    <span class="badge badge-pill badge-warning">已禁用</span>
+                                    <span class="badge badge-pill badge-danger">已禁用</span>
                                 {% endif %}
                             </td>
                             <td style="width: 290px;">
-                                <a type="button" class="btn btn-primary ml-1"
+                                <a type="button" class="btn btn-sm btn-primary ml-1"
                                    href="{{ url_for('user.edit_user', user_id=user.id) }}">修改</a>
+                                <a type="button" class="btn btn-sm btn-danger ml-1"
+                                   href="{{ url_for('user.delete_user', user_id=user.id) }}"
+                                   onclick="return confirm('确定删除?')">删除</a>
                                 {% if not user.is_active %}
-                                    <a type="button" class="btn btn-success ml-1"
+                                    <a type="button" class="btn btn-sm btn-success ml-1"
                                        href="{{ url_for('user.active_user', user_id=user.id) }}">激活</a>
                                 {% else %}
-                                    <a type="button" class="btn btn-danger ml-1"
+                                    <a type="button" class="btn btn-sm btn-warning ml-1"
                                        href="{{ url_for('user.active_user', user_id=user.id) }}">禁用</a>
                                 {% endif %}
                             </td>
@@ -71,6 +67,7 @@
                     {% endfor %}
                     </tbody>
                 </table>
+                {{ render_pagination(pagination, 'user.user_manager') }}
             </div>
             <!-- /.card-body -->
         </div>

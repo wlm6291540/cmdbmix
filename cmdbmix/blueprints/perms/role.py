@@ -2,22 +2,27 @@ from flask import request, render_template, redirect, url_for, jsonify
 from flask.blueprints import Blueprint
 from flask_login import current_user, login_user, logout_user, login_required
 
+from cmdbmix.decorators import auth_required
 from cmdbmix.models.auth import User, Role, Permission
 from cmdbmix.forms.auth import LoginForm, RoleEditForm
-from cmdbmix.utils import format_form_errors
+from cmdbmix.utils import format_form_errors, get_page_args
 
 role_bp = Blueprint('role', __name__)
 
 
 @role_bp.route('/role_manager', methods=['GET'])
 @login_required
+@auth_required('role.role_manager')
 def role_manager():
-    roles = Role.query.all()
-    return render_template('perms/role.html', roles=roles)
+    page, per_page = get_page_args(request)
+    pagination = Role.query.order_by('id').paginate(page, per_page=per_page)
+    roles = pagination.items
+    return render_template('perms/role.html', roles=roles, pagination=pagination)
 
 
 @role_bp.route('/role_manager/bind_user/<int:role_id>', methods=['GET', 'POST'])
 @login_required
+@auth_required('role.bind_user')
 def bind_user(role_id):
     role = Role.query.get_or_404(role_id)
     if request.method == 'POST':
@@ -40,6 +45,7 @@ def bind_user(role_id):
 
 @role_bp.route('/role_manager/bind_perm/<int:role_id>', methods=['GET', 'POST'])
 @login_required
+#@auth_required('role.bind_perms')
 def bind_perms(role_id):
     role = Role.query.get_or_404(role_id)
     if request.method == 'POST':
@@ -62,8 +68,9 @@ def bind_perms(role_id):
                                binds=role.permissions, unbinds=unbind_perms)
 
 
-@role_bp.route('/edit_role/<int:role_id>', methods=['GET', 'POST'])
+@role_bp.route('/role_manager/edit_role/<int:role_id>', methods=['GET', 'POST'])
 @login_required
+@auth_required('role.edit_role')
 def edit_role(role_id):
     form = RoleEditForm()
     role = Role.query.get_or_404(role_id)
@@ -72,4 +79,27 @@ def edit_role(role_id):
         role.desc = form.desc.data
         role.save()
         return redirect(url_for('role.role_manager'))
+    form.desc.data = role.desc
     return render_template('perms/edit_role.html', role=role, form=form)
+
+
+@role_bp.route('/role_manager/add_role', methods=['GET', 'POST'])
+@login_required
+@auth_required('role.add_role')
+def add_role():
+    form = RoleEditForm()
+    if form.validate_on_submit():
+        role = Role()
+        role.name = form.name.data
+        role.desc = form.desc.data
+        role.save()
+        return redirect(url_for('role.role_manager'))
+    return render_template('perms/add_role.html', form=form)
+
+
+
+@role_bp.route('/role_manager/delete_role/<int:role_id>', methods=['GET', 'POST'])
+@login_required
+def delete_role(role_id):
+    Role.query.get_or_404(role_id).delete()
+    return redirect(url_for('role.role_manager'))

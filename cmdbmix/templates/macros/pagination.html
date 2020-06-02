@@ -1,0 +1,29 @@
+{% macro render_pagination(pagination, endpoint) %}
+    <div class="row mt-4">
+        <div class="col-sm-12 col-md-5">
+            <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+                显示 {{ pagination.page }} 到 {{ pagination.pages }} 页, 共 {{ pagination.total }} 项
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-7">
+            <div class="dataTables_paginate paging_simple_numbers" id="paginate">
+                <ul class="pagination float-right">
+                    <li class="paginate_button page-item previous {% if not pagination.has_prev %}disabled{% endif %}"
+                        id="paginate_prev">
+                        <a href="{{url_for(endpoint) }}?page={{ pagination.prev_num }}" aria-controls="example2" data-dt-idx="0" tabindex="0"
+                           class="page-link">上一页</a>
+                    </li>
+                    <li class="paginate_button page-item active">
+                        <a href="#" aria-controls="example2" data-dt-idx="1"
+                           tabindex="0" class="page-link disabled">{{ pagination.page }}</a>
+                    </li>
+                    <li class="paginate_button page-item next  {% if not pagination.has_next %}disabled{% endif %}"
+                        id="paginate_next">
+                        <a href="{{url_for(endpoint) }}?page={{ pagination.next_num }}" aria-controls="example2" data-dt-idx="7" tabindex="0"
+                           class="page-link">下一页</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+{% endmacro %}

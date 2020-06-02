@@ -1,0 +1,56 @@
+{% macro render_form(form, item, url, back) %}
+    <form role="form"
+          action="{% if id %}{{ url }}{% endif %}"
+          method="post">
+        {{ form.csrf_token() }}
+        <div class="card-body">
+            {% for name, field in form._fields.items() %}
+                {% if name == 'csrf_token' %}
+                    {{ form.csrf_token() }}
+                {% elif field.type == 'BooleanField' %}
+                    {% set myclass = "custom-control-input" %}
+                    {% if field.errors %}
+                        {% set myclass = "custom-control-input" + ' is-invalid' %}
+                    {% endif %}
+                    <div class="form-group mb-0">
+                        <div class="custom-control custom-checkbox">
+                            {% if not item[name] %}
+                                {{ field(class=myclass) }}
+                            {% else %}
+                                {{ field(class=myclass, checked=True) }}
+                            {% endif %}
+                            <label for="{{ name }}" class="custom-control-label">{{ field.label }}</label>
+                            <span id="{{ name + '-error' }}"
+                                  class="error invalid-feedback">{{ ','.join(field.errors) }}</span>
+                        </div>
+
+                    </div>
+
+                {% elif field.type != 'SubmitField' %}
+                    <div class="form-group">
+                        <label for="{{ name }}">{{ field.label }}</label>
+                        {% set myclass = 'form-control' %}
+                        {% if field.errors %}
+                            {% set myclass = 'form-control' + ' is-invalid' %}
+                        {% endif %}
+                        {% if not item[name] %}
+                            {{ field(class=myclass) }}
+                        {% else %}
+                            {{ field(class=myclass, value=item[name]) }}
+                        {% endif %}
+                        <span id="{{ name + '-error' }}"
+                              class="error invalid-feedback">{{ ','.join(field.errors) }}</span>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <!-- /.card-body -->
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">保存</button>
+            <a type="button" class="btn btn-primary float-right"
+               href="{{ back }}">返回</a>
+        </div>
+    </form>
+
+{% endmacro %}

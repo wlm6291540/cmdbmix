@@ -1,3 +1,11 @@
+.main-sidebar {
+    position: fixed !important;
+}
+
+.content {
+    overflow-y: hidden;
+}
+
 nav.mt-2 ul.nav.nav-pills.nav-sidebar.flex-column li.nav-item.menu-open ul.nav.nav-treeview {
     background: rgb(81, 89, 98);
 }

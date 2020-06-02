@@ -49,6 +49,12 @@ class User(UserMixin, db.Model, BaseModel):
         if self.email:
             self.gravatar = 'http://www.gravatar.com/avatar/%s?d=identicon' % self.email_hash
 
+    def can(self, endpoint):
+        if Permission.query.filter_by(url=endpoint).first() in self.role.permissions:
+            return True
+        else:
+            return False
+
 
 role_permission = db.Table('role_permission',
                            db.Column('role_id', db.Integer, db.ForeignKey('role.id')),

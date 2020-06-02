@@ -13,7 +13,7 @@
                         <h3 class="card-title float-left">{{ left_title }}</h3>
                     </div>
                 </div>
-                <div class="card-body" id="left-body">
+                <div class="card-body overflow-auto" id="left-body">
                     {% for item in unbinds %}
                         <div class="transfer-item custom-control custom-checkbox">
                             <input class="custom-control-input" type="checkbox"  id="{{ item.id }}">
@@ -51,7 +51,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="card-body" id="right-body">
+                <div class="card-body overflow-auto" id="right-body">
                     {% for item in binds %}
                         <div class="transfer-item custom-control custom-checkbox">
                             <input class="custom-control-input" type="checkbox" id="{{ item.id }}">

@@ -1,11 +1,17 @@
 {% extends 'base.html' %}
 {% from 'macros/form.html' import render_form %}
+{% block title %}添加用户{% endblock %}
 
-{% block title %}角色编辑{% endblock %}
+{% block style %}
+    <style type="text/css">
 
-{% block currentPage %}角色编辑{% endblock %}
+    </style>
+{% endblock %}
+
+
+{% block currentPage %}添加用户{% endblock %}
 {% block topPage %}系统管理{% endblock %}
-{% block secondPage %}角色编辑{% endblock %}
+{% block secondPage %}添加用户{% endblock %}
 
 {% block content %}
 
@@ -16,10 +22,8 @@
                 <div class="row">
                     <div class="col-3"></div>
                     <div class="col-6">
-                        <div class="card">
-                            <!-- /.card-header -->
-                            {{ render_form(form, role, url_for('role.edit_role', role_id=role.id), url_for('role.role_manager')) }}
-                        </div>
+                        <!-- form start -->
+                        {{ render_form(form, None, url_for('user.add_user'), url_for('user.user_manager')) }}
                     </div>
                     <div class="col-3"></div>
                 </div>

@@ -191,12 +191,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu"
+                    <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview"
+                        role="menu"
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                              with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="/" class="nav-link">
                                 <i class="nav-icon fas fa-home"></i>
                                 <p>主页</p>
                             </a>
@@ -212,14 +213,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="{{ url_for('role.role_manager') }}" class="nav-link"
-                                    id="{{ url_for('role.role_manager') | replace('/', '') }}">
+                                       id="{{ url_for('role.role_manager') | replace('/', '') }}">
                                         <i class="fa fa-users nav-icon"></i>
                                         <p>角色管理</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ url_for('perm.perm_manager') }}" class="nav-link"
-                                    id="{{ url_for('perm.perm_manager') | replace('/', '') }}">
+                                       id="{{ url_for('perm.perm_manager') | replace('/', '') }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>权限管理</p>
                                     </a>
@@ -245,14 +246,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="{{ url_for('server.server_manager') }}" class="nav-link"
-                                    id="{{ url_for('server.server_manager') | replace('/', '') }}">
+                                       id="{{ url_for('server.server_manager') | replace('/', '') }}">
                                         <i class="fa fa-server nav-icon"></i>
                                         <p>服务器管理</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ url_for('host.host_manager') }}" class="nav-link"
-                                    id="{{ url_for('host.host_manager') | replace('/', '') }}">
+                                       id="{{ url_for('host.host_manager') | replace('/', '') }}">
                                         <i class="fa fa-hdd nav-icon"></i>
                                         <p>主机管理</p>
                                     </a>
@@ -316,19 +317,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- /.control-sidebar -->
     {% endblock %}
 
-
-    {% block footer %}
-        <!-- Main Footer -->
-        <footer class="main-footer">
-            <!-- To the right -->
-            <div class="float-right d-none d-sm-inline">
-                pitta cmdb
-            </div>
-            <!-- Default to the left -->
-            <strong>Copyright &copy; 2020 <a href="https://adminlte.io">Guibu</a>.</strong> All rights
-            reserved.
-        </footer>
-    {% endblock %}
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <!-- To the right -->
+        <div class="float-right d-none d-sm-inline">
+            pitta cmdb
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2020 <a href="https://adminlte.io">Guibu</a>.</strong> All rights
+        reserved.
+    </footer>
 </div>
 <!-- jQuery -->
 <script src="{{ url_for('static', filename='plugins/jquery/jquery.min.js') }}"></script>
