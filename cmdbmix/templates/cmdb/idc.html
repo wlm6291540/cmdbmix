@@ -2,12 +2,11 @@
 {% from 'macros/pagination.html' import render_pagination %}
 {% from 'macros/breadcrumb.html' import render_breadcrumb %}
 
-{% block title %}主机管理{% endblock %}
+{% block title %}IDC管理{% endblock %}
 
 {% block breadcrumb %}
-    {{ render_breadcrumb('系统管理', '主机管理') }}
+    {{ render_breadcrumb('系统管理', 'IDC管理') }}
 {% endblock %}
-
 
 {% block content %}
 
@@ -15,25 +14,19 @@
     <div class="content">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">主机列表</h3>
+                <h3 class="card-title">IDC列表</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
                 <div class="row operation mb-4">
-                    <a type="button" class="btn btn-success ml-2" href="{{ url_for('host.add_host') }}">添加</a>
+                    <a type="button" class="btn btn-success ml-2" href="{{ url_for('idc.add_idc') }}">添加</a>
                 </div>
                 <table id="role-table" class="table table-bordered table-hover text-center">
                     <thead>
                     <tr>
                         <th>序号</th>
-                        <th>主机名</th>
-                        <th>公网Ip</th>
-                        <th>私网Ip</th>
-                        <th>状态</th>
-                        <th>标签</th>
-                        <th>服务器</th>
-                        <th>创建时间</th>
-                        <th>过期时间</th>
+                        <th>名称</th>
+                        <th>区域</th>
                         <th>备注</th>
                         <th>操作</th>
                     </tr>
@@ -42,23 +35,22 @@
                     {% for item in pagination.items %}
                         <tr>
                             <td>{{ loop.index }}</td>
-                            <td>{{ item.hostname or '' }}</td>
-                            <td>{{ item.public_ip or '无' }}</td>
-                            <td>{{ item.private_ip or '无' }}</td>
-                            <td>{{ item.status or '无' }}</td>
-                            <td>{{ item.tag.name or '无' }}</td>
-                            <td>{{ item.server.name }}</td>
-                            <td>{{ item.create_time or '无' }}</td>
-                            <td>{{ item.expire_time or '无' }}</td>
+                            <td>{{ item.name or ''}}</td>
+                            <td>
+                                {% if item.area.find('云') != -1 %}
+                                    <i class="fa fa-cloud"></i>&nbsp;&nbsp;
+                                {% else %}
+                                    <i class="fa fa-warehouse"></i>&nbsp;&nbsp;
+                                {% endif %}
+                                {{ item.area }}
+                            </td>
                             <td>{{ item.desc or '无' }}</td>
                             <td style="width: 290px;">
                                 <a type="button" class="btn btn-sm btn-primary ml-1"
-                                   href="{{ url_for('host.edit_host', host_id=item.id) }}">修改</a>
+                                   href="{{ url_for('idc.edit_idc', idc_id=item.id) }}">修改</a>
                                 <a type="button" class="btn btn-sm btn-danger ml-1"
-                                   href="{{ url_for('host.delete_host', host_id=item.id) }}"
+                                   href="{{ url_for('idc.delete_idc', idc_id=item.id) }}"
                                    onclick="return confirm('确定删除?')">删除</a>
-                                <a type="button" class="btn btn-sm btn-success ml-1"
-                                   href="{{ url_for('host.web_ssh', host_id=item.id) }}">SSH</a>
                             </td>
                         </tr>
                     {% endfor %}

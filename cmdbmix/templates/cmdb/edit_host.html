@@ -2,12 +2,12 @@
 {% from 'macros/form.html' import render_form %}
 {% from 'macros/breadcrumb.html' import render_breadcrumb %}
 
-{% block title %}权限编辑{% endblock %}
+{% block title %}编辑主机{% endblock %}
+
 
 {% block breadcrumb %}
-    {{ render_breadcrumb('系统管理', '权限编辑') }}
+    {{ render_breadcrumb('资产管理', '编辑主机') }}
 {% endblock %}
-
 
 {% block content %}
 
@@ -19,7 +19,7 @@
                     <div class="col-3"></div>
                     <div class="col-6">
                         <!-- form start -->
-                        {{ render_form(form, perm, url_for('perm.edit_perm', perm_id=perm.id), url_for('perm.perm_manager')) }}
+                        {{ render_form(form, host, url_for('host.edit_host', host_id=host.id), url_for('host.host_manager')) }}
                     </div>
                     <div class="col-3"></div>
                 </div>
@@ -31,8 +31,17 @@
     <!-- /.content -->
 {% endblock %}
 
-{% block scripts %}
-    <script type="text/javascript">
+{% block scripts %}{##}
+    <script>
 
+        $(function () {
+            //Date range picker
+            $('#create_time_picker').datetimepicker({
+                format: 'YYYY-MM-DD hh:mm:ss'
+            });
+            $('#expire_time_picker').datetimepicker({
+                format: 'YYYY-MM-DD hh:mm:ss'
+            });
+        });
     </script>
 {% endblock %}

@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% from 'macros/pagination.html' import render_pagination %}
+{% from 'macros/breadcrumb.html' import render_breadcrumb %}
 
 {% block title %}角色管理{% endblock %}
+
+{% block breadcrumb %}
+    {{ render_breadcrumb('系统管理', '角色管理') }}
+{% endblock %}
+
 
 {% block include_css %}
     <!-- jsGrid -->
@@ -38,7 +44,7 @@
                     <tbody>
                     {% for role in roles %}
                         <tr>
-                            <td>{{ role.id }}</td>
+                            <td>{{ loop.index }}</td>
                             <td>{{ role.name }}</td>
                             <td>{{ role.desc }}</td>
                             <td style="width: 350px;">

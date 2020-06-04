@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
 {% from 'macros/pagination.html' import render_pagination %}
+{% from 'macros/breadcrumb.html' import render_breadcrumb %}
 
 {% block title %}用户管理{% endblock %}
-{% block currentPage %}用户管理{% endblock %}
-{% block topPage %}系统管理{% endblock %}
-{% block secondPage %}用户管理{% endblock %}
+
+
+{% block breadcrumb %}
+    {{ render_breadcrumb('系统管理', '用户管理') }}
+{% endblock %}
 
 {% block content %}
 
@@ -35,7 +38,7 @@
                     <tbody>
                     {% for user in users %}
                         <tr>
-                            <td>{{ user.id }}</td>
+                            <td>{{ loop.index }}</td>
                             <td>{{ user.username }}</td>
                             <td>{% if user.role %}{{ user.role.name }}{% else %}无{% endif %}
                             </td>

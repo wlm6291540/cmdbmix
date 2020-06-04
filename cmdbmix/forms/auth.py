@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired, ValidationError, Length
 
 from cmdbmix.models.auth import Role, Permission, User
 
-type_choices = [('页面', '页面'), ('操作', '操作')]
+type_choices = [('页面', '页面'), ('操作', '操作'), ('页面和操作', '页面和操作')]
 
 
 class LoginForm(FlaskForm):
@@ -19,7 +19,7 @@ class UserEditForm(FlaskForm):
     nickname = StringField(label="昵称")
     email = StringField(label="邮箱", validators=[DataRequired()])
     is_active = BooleanField(label="状态")
-    role_id = SelectField(label="角色")
+    role_id = SelectField(label="角色", coerce=int)
     password = PasswordField(label="密码")
     submit = SubmitField()
 

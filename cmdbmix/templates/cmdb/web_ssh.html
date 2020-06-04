@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% from 'macros/pagination.html' import render_pagination %}
+{% from 'macros/breadcrumb.html' import render_breadcrumb %}
+
+{% block title %}SSH连接{% endblock %}
+
+{% block include_css %}
+    <link href="https://cdn.bootcdn.net/ajax/libs/xterm/3.14.5/xterm.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block style %}
+    <style type="text/css">
+        #terminal {
+            overflow-y: auto;
+        }
+    </style>
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ render_breadcrumb('资产管理', 'SSH连接') }}
+{% endblock %}
+
+
+{% block content %}
+
+    <!-- Main content -->
+    <div class="content">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">SSH</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row operation mb-4">
+                    <a type="button" class="btn btn-success ml-2" data-toggle="modal" data-target="#ssh">连接</a>
+                    <a type="button" class="btn btn-danger ml-2" id="close">断开</a>
+                </div>
+                <div class="row">
+                    <div id="terminal"></div>
+                </div>
+            </div>
+        </div>
+        <!-- /.card -->
+
+        <div class="modal fade" id="ssh" tabindex="-1" role="dialog" aria-labelledby="sshLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="sshLabel">SSH连接</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">IP地址:</label>
+                                <select id="ip" class="form-control">
+                                    {% if host.public_ip %}
+                                    <option value="{{ host.public_ip }}">{{ host.public_ip }}</option>
+                                    {% endif %}
+                                    {% if host.private_ip %}
+                                        <option value="{{ host.private_ip }}">{{ host.private_ip }}</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">用户名:</label>
+                                <input type="text" class="form-control" id="username">
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label" >密码:</label>
+                                <input type="password" class="form-control" id="password">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" id="connect">连接</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.content -->
+{% endblock %}
+
+
+{% block include_js %}
+    <script src="https://cdn.bootcdn.net/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/xterm/3.14.5/xterm.min.js"></script>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        var socket = io('/');
+        var hostname = "{{ host.hostname }}";
+        var public_ip = "{{ host.public_ip }}";
+        var private_ip = "{{ host.private_ip }}";
+        var connect_url = "{{ url_for('host.connect') }}";
+        var close_connect_url = "{{ url_for('host.close_connect') }}";
+    </script>
+    <script src="{{ url_for('static', filename='js/terminal.js') }}"></script>
+{% endblock %}

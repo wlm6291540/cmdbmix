@@ -1,9 +1,9 @@
 import os
 
 import click
-from flask import Flask
+from flask import Flask, g
 
-from cmdbmix.extension import db, login_manager, csrf
+from cmdbmix.extension import db, login_manager, csrf, socketio
 from cmdbmix.setting import config
 from cmdbmix.blueprints.auth import auth_bp
 from cmdbmix.blueprints.main import main_bp
@@ -12,7 +12,9 @@ from cmdbmix.blueprints.perms.role import role_bp
 from cmdbmix.blueprints.perms.user import user_bp
 from cmdbmix.blueprints.cmdb.host import host_bp
 from cmdbmix.blueprints.cmdb.server import server_bp
-from cmdbmix.blueprints.cmdb.software import soft_bp
+from cmdbmix.blueprints.cmdb.database import db_bp
+from cmdbmix.blueprints.cmdb.idc import idc_bp
+from cmdbmix.blueprints.cmdb.tag import tag_bp
 
 
 
@@ -37,7 +39,9 @@ def register_blueprints(app):
     app.register_blueprint(user_bp)
     app.register_blueprint(host_bp)
     app.register_blueprint(server_bp)
-    app.register_blueprint(soft_bp)
+    app.register_blueprint(db_bp)
+    app.register_blueprint(idc_bp)
+    app.register_blueprint(tag_bp)
 
 
 def register_commands(app):
@@ -64,4 +68,5 @@ def register_commands(app):
 def register_extensions(app):
     db.init_app(app)
     login_manager.init_app(app)
+    socketio.init_app(app)
     # csrf.init_app(app)

@@ -1,17 +1,12 @@
 {% extends 'base.html' %}
 {% from 'macros/form.html' import render_form %}
+{% from 'macros/breadcrumb.html' import render_breadcrumb %}
+
 {% block title %}添加用户{% endblock %}
 
-{% block style %}
-    <style type="text/css">
-
-    </style>
+{% block breadcrumb %}
+    {{ render_breadcrumb('系统管理', '添加用户') }}
 {% endblock %}
-
-
-{% block currentPage %}添加用户{% endblock %}
-{% block topPage %}系统管理{% endblock %}
-{% block secondPage %}添加用户{% endblock %}
 
 {% block content %}
 

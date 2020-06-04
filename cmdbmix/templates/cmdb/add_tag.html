@@ -2,10 +2,10 @@
 {% from 'macros/form.html' import render_form %}
 {% from 'macros/breadcrumb.html' import render_breadcrumb %}
 
-{% block title %}用户编辑{% endblock %}
+{% block title %}添加标签{% endblock %}
 
 {% block breadcrumb %}
-    {{ render_breadcrumb('系统管理', '用户编辑') }}
+    {{ render_breadcrumb('资产管理', '添加标签') }}
 {% endblock %}
 
 {% block content %}
@@ -17,10 +17,9 @@
                 <div class="row">
                     <div class="col-3"></div>
                     <div class="col-6">
-                            <!-- /.card-header -->
-                            <!-- form start -->
-                            {{ render_form(form, user, url_for('user.edit_user', user_id=user.id), url_for('user.user_manager')) }}
-                        </div>
+                        <!-- form start -->
+                        {{ render_form(form, None, url_for('tag.tag_manager'), url_for('tag.add_tag')) }}
+                    </div>
                     <div class="col-3"></div>
                 </div>
             </div>

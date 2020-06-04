@@ -1,27 +1,67 @@
 {% extends 'base.html' %}
+{% from 'macros/pagination.html' import render_pagination %}
+{% from 'macros/breadcrumb.html' import render_breadcrumb %}
 
 {% block title %}服务器管理{% endblock %}
-{% block currentPage %}服务器管理{% endblock %}
-{% block topPage %}资产管理{% endblock %}
-{% block secondPage %}服务器管理{% endblock %}
 
+{% block breadcrumb %}
+    {{ render_breadcrumb('系统管理', '服务器管理') }}
+{% endblock %}
 
 {% block content %}
 
     <!-- Main content -->
     <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <h2>服务器管理</h2>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">服务器列表</h3>
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row operation mb-4">
+                    <a type="button" class="btn btn-success ml-2" href="{{ url_for('server.add_server') }}">添加</a>
+                </div>
+                <table id="role-table" class="table table-bordered table-hover text-center">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>名称</th>
+                        <th>管理Ip</th>
+                        <th>公网Ip</th>
+                        <th>私网Ip</th>
+                        <th>IDC</th>
+                        <th>上架时间</th>
+                        <th>备注</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in pagination.items %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ item.name or ''}}</td>
+                            <td>{{ item.manager_ip or '无' }}</td>
+                            <td>{{ item.public_ip or '无' }}</td>
+                            <td>{{ item.private_ip or '无' }}</td>
+                            <td>{{ item.idc.name or '无' }}</td>
+                            <td>{{ item.create_time }}</td>
+                            <td>{{ item.desc or '无' }}</td>
+                            <td style="width: 290px;">
+                                <a type="button" class="btn btn-sm btn-primary ml-1"
+                                   href="{{ url_for('server.edit_server', server_id=item.id) }}">修改</a>
+                                <a type="button" class="btn btn-sm btn-danger ml-1"
+                                   href="{{ url_for('server.delete_server', server_id=item.id) }}"
+                                   onclick="return confirm('确定删除?')">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {{ render_pagination(pagination, 'idc.idc_manager') }}
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
     </div>
     <!-- /.content -->
-{% endblock %}
-
-{% block scripts %}
-    <script type="text/javascript">
-
-    </script>
 {% endblock %}

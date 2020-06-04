@@ -12,17 +12,17 @@ perm_bp = Blueprint('perm', __name__)
 
 @perm_bp.route('/perm_manager', methods=['GET'])
 @login_required
-@auth_required('perm.perm_manager')
+@auth_required
 def perm_manager():
     page, per_page = get_page_args(request)
-    pagination = Permission.query.paginate(page=page, per_page=per_page)
+    pagination = Permission.query.order_by('url').paginate(page=page, per_page=per_page)
     perms = pagination.items
     return render_template('perms/perm.html', perms=perms, pagination=pagination)
 
 
 @perm_bp.route('/perm_manager/edit_perm/<int:perm_id>', methods=['GET', 'POST'])
 @login_required
-@auth_required('perm.edit_perm')
+@auth_required
 def edit_perm(perm_id):
     perm = Permission.query.get_or_404(perm_id)
     form = PermEditForm()
@@ -41,7 +41,7 @@ def edit_perm(perm_id):
 
 @perm_bp.route('/perm_manager/add_perm', methods=['GET', 'POST'])
 @login_required
-@auth_required('perm.add_perm')
+@auth_required
 def add_perm():
     form = PermAddForm()
     form.role.choices = [(str(role.id), role.name) for role in Role.query.all()]
@@ -62,7 +62,7 @@ def add_perm():
 
 @perm_bp.route('/perm_manager/delete_perm/<int:perm_id>', methods=['GET', 'POST'])
 @login_required
-@auth_required('perm.delete_perm')
+@auth_required
 def delete_perm(perm_id):
     perm = Permission.query.get_or_404(perm_id)
     perm.delete()

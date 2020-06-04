@@ -1,0 +1,13 @@
+{% macro render_breadcrumb(top, current) %}
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h5 class="m-0 text-dark"><strong>{{ current }}</strong></h5>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">{{ top }}</a></li>
+                <li class="breadcrumb-item active">{{ current }}</li>
+            </ol>
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+{% endmacro %}

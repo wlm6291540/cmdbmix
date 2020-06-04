@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% from 'macros/pagination.html' import render_pagination %}
+{% from 'macros/breadcrumb.html' import render_breadcrumb %}
 
 {% block title %}权限管理{% endblock %}
-{% block currentPage %}权限管理{% endblock %}
-{% block topPage %}系统管理{% endblock %}
-{% block secondPage %}权限管理{% endblock %}
+
+{% block breadcrumb %}
+    {{ render_breadcrumb('系统管理', '权限管理') }}
+{% endblock %}
 
 
 {% block content %}
@@ -34,7 +36,7 @@
                     <tbody>
                     {% for perm in perms %}
                         <tr>
-                            <td>{{ perm.id }}</td>
+                            <td>{{ loop.index }}</td>
                             <td>{% if perm.name %}{{ perm.name }}{% else %}无{% endif %}</td>
                             <td>{% if perm.url %}{{ perm.url }}{% else %}无{% endif %}</td>
                             <td>{% if perm.type %}{{ perm.type }}{% else %}无{% endif %}</td>

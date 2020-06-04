@@ -1,21 +1,11 @@
 import hashlib
+from datetime import datetime
 
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from cmdbmix.extension import db
-
-class BaseModel:
-    def save(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
-
-    def update(self):
-        db.session.commit()
+from cmdbmix.models.utils import BaseModel
 
 
 class User(UserMixin, db.Model, BaseModel):
@@ -27,7 +17,8 @@ class User(UserMixin, db.Model, BaseModel):
     gravatar = db.Column(db.String(255))
     is_active = db.Column(db.Boolean, default=True)
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
-    role = db.relationship("Role", back_populates='users')
+    role = db.relationship("Role", back_populates='users', foreign_keys=[role_id])
+    create_time = db.Column(db.DateTime, default=datetime.utcnow())
 
     def __init__(self):
         super(User).__init__()
@@ -50,10 +41,10 @@ class User(UserMixin, db.Model, BaseModel):
             self.gravatar = 'http://www.gravatar.com/avatar/%s?d=identicon' % self.email_hash
 
     def can(self, endpoint):
-        if Permission.query.filter_by(url=endpoint).first() in self.role.permissions:
-            return True
-        else:
-            return False
+        for perm in self.role.permissions:
+            if perm.url == endpoint:
+                return True
+        return False
 
 
 role_permission = db.Table('role_permission',
@@ -64,8 +55,9 @@ class Role(db.Model, BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(32), unique=True)
     desc = db.Column(db.String(255))
-    users = db.relationship('User', back_populates='role')
+    users = db.relationship('User', back_populates='role', foreign_keys='User.role_id')
     permissions = db.relationship('Permission', secondary=role_permission, back_populates='roles')
+    create_time = db.Column(db.DateTime, default=datetime.utcnow())
 
 
 class Permission(db.Model, BaseModel):
@@ -75,3 +67,4 @@ class Permission(db.Model, BaseModel):
     type = db.Column(db.String(32))
     desc = db.Column(db.String(255))
     roles = db.relationship('Role', secondary=role_permission, back_populates='permissions')
+    create_time = db.Column(db.DateTime, default=datetime.utcnow())

@@ -25,10 +25,23 @@
                         </div>
 
                     </div>
-
+                {% elif field.type == 'DateTimeField' %}
+                    <div class="form-group">
+                        <div class="input-group date" id="{{ field.name + '_picker' }}" data-target-input="nearest">
+                            {% set target = "#" + field.name + "_picker" %}
+                            <input type="text" class="form-control datetimepicker-input" id="{{ field.name }}"
+                                   name="{{ field.name }}" data-target={{ target }} value="{{ item[field.name] }}">
+                            <div class="input-group-append" data-target="{{ target }}"
+                                 data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
                 {% elif field.type != 'SubmitField' %}
                     <div class="form-group">
-                        <label for="{{ name }}">{{ field.label }}</label>
+                        {% if field.type != 'HiddenField' %}
+                            <label for="{{ name }}">{{ field.label }}</label>
+                        {% endif %}
                         {% set myclass = 'form-control' %}
                         {% if field.errors %}
                             {% set myclass = 'form-control' + ' is-invalid' %}

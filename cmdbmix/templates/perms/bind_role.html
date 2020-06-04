@@ -1,17 +1,11 @@
 {% extends 'base.html' %}
+{% from 'macros/breadcrumb.html' import render_breadcrumb %}
 
 {% block title %}角色绑定{% endblock %}
 
-{% block style %}
-    <style type="text/css">
-
-    </style>
+{% block breadcrumb %}
+    {{ render_breadcrumb('系统管理', '角色绑定') }}
 {% endblock %}
-
-
-{% block currentPage %}角色绑定{% endblock %}
-{% block topPage %}系统管理{% endblock %}
-{% block secondPage %}绑定角色{% endblock %}
 
 {% block content %}
 
@@ -27,9 +21,4 @@
         <!-- /.card -->
     </section>
     <!-- /.content -->
-{% endblock %}
-
-{% block scripts %}
-    <script type="text/javascript">
-    </script>
 {% endblock %}

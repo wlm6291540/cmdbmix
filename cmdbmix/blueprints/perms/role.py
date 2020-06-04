@@ -12,7 +12,7 @@ role_bp = Blueprint('role', __name__)
 
 @role_bp.route('/role_manager', methods=['GET'])
 @login_required
-@auth_required('role.role_manager')
+@auth_required
 def role_manager():
     page, per_page = get_page_args(request)
     pagination = Role.query.order_by('id').paginate(page, per_page=per_page)
@@ -22,7 +22,7 @@ def role_manager():
 
 @role_bp.route('/role_manager/bind_user/<int:role_id>', methods=['GET', 'POST'])
 @login_required
-@auth_required('role.bind_user')
+@auth_required
 def bind_user(role_id):
     role = Role.query.get_or_404(role_id)
     if request.method == 'POST':
@@ -45,7 +45,7 @@ def bind_user(role_id):
 
 @role_bp.route('/role_manager/bind_perm/<int:role_id>', methods=['GET', 'POST'])
 @login_required
-#@auth_required('role.bind_perms')
+@auth_required
 def bind_perms(role_id):
     role = Role.query.get_or_404(role_id)
     if request.method == 'POST':
@@ -70,7 +70,7 @@ def bind_perms(role_id):
 
 @role_bp.route('/role_manager/edit_role/<int:role_id>', methods=['GET', 'POST'])
 @login_required
-@auth_required('role.edit_role')
+@auth_required
 def edit_role(role_id):
     form = RoleEditForm()
     role = Role.query.get_or_404(role_id)
@@ -85,7 +85,7 @@ def edit_role(role_id):
 
 @role_bp.route('/role_manager/add_role', methods=['GET', 'POST'])
 @login_required
-@auth_required('role.add_role')
+@auth_required
 def add_role():
     form = RoleEditForm()
     if form.validate_on_submit():
