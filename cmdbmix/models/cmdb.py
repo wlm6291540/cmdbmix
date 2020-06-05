@@ -60,3 +60,36 @@ class Database(db.Model, BaseModel):
     tag = db.relationship('Tag', back_populates='databases')
     create_time = db.Column(db.DateTime, default=datetime.utcnow(), comment='创建时间')
     expire_time = db.Column(db.DateTime, default='', comment='过期时间')
+
+
+class Enviroment(db.Model, BaseModel):
+    pass
+
+class Tool(db.Model, BaseModel):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    path = db.Column(db.String(255), comment='存储路径')
+    bin = db.Column(db.String(255), comment='bin目录路径')
+    desc = db.Column(db.String(255))
+
+class Template(db.Model, BaseModel):
+    '''
+    自动化部署模板
+    '''
+    id = db.Column()
+    name = db.Column()
+    env_id = db.Column()
+    env = db.relationship()
+    repo = db.Column()
+    branch = db.Column()
+    tag = db.Column()
+    hosts = db.relationship()
+    delopy_path = db.Column()
+    saved = db.Column()
+    variables = db.Column()
+
+class Task(db.Model, BaseModel):
+    '''
+    任务
+    '''
+    pass
