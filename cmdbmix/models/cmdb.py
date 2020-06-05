@@ -45,16 +45,18 @@ class Host(db.Model, BaseModel):
     server_id = db.Column(db.Integer, db.ForeignKey('server.id'))
     desc = db.Column(db.String(255), comment='备注')
     create_time = db.Column(db.DateTime, default=datetime.utcnow(), comment='创建时间')
-    expire_time = db.Column(db.DateTime, comment='过期时间')
+    expire_time = db.Column(db.DateTime, default='', comment='过期时间')
 
 
 class Database(db.Model, BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     version = db.Column(db.String(64))
+    public_ip = db.Column(db.String(255))
+    private_ip = db.Column(db.String(255))
     host_id = db.Column(db.Integer, db.ForeignKey('host.id'))
     host = db.relationship('Host', uselist=True)
     tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'))
     tag = db.relationship('Tag', back_populates='databases')
     create_time = db.Column(db.DateTime, default=datetime.utcnow(), comment='创建时间')
-    expire_time = db.Column(db.DateTime, comment='过期时间')
+    expire_time = db.Column(db.DateTime, default='', comment='过期时间')

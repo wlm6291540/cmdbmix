@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask_wtf import FlaskForm
 from wtforms import IntegerField, StringField, SelectField, TextAreaField, HiddenField, DateTimeField
 from wtforms.validators import DataRequired, ValidationError
@@ -71,8 +73,31 @@ class HostEditForm(FlaskForm):
     public_ip = StringField(label='公网Ip')
     private_ip = StringField(label='私网Ip')
     status = SelectField(label='状态', default='正常', choices=host_stat_choices)
-    tag_id = SelectField(label='IDC', coerce=int)
+    tag_id = SelectField(label='标签', coerce=int)
     server_id = SelectField(label='服务器', coerce=int)
     create_time = DateTimeField(label='创建时间')
     expire_time = DateTimeField(label='过期时间')
     desc = TextAreaField(label='备注')
+
+
+class DatabaseAddForm(FlaskForm):
+    name = StringField(label='数据库名', validators=[DataRequired()])
+    version = StringField(label='版本', validators=[DataRequired()])
+    public_ip = StringField(label='公网地址')
+    private_ip = StringField(label='私网地址')
+    host_id = SelectField(label='宿主机', coerce=int)
+    tag_id = SelectField(label='环境', coerce=int)
+    create_time = DateTimeField(label='创建时间')
+    expire_time = DateTimeField(label='过期时间')
+
+
+class DatabaseEditForm(FlaskForm):
+    id = HiddenField('id', validators=[DataRequired()])
+    name = StringField(label='数据库名', validators=[DataRequired()])
+    version = StringField(label='版本', validators=[DataRequired()])
+    public_ip = StringField(label='公网地址')
+    private_ip = StringField(label='私网地址')
+    host_id = SelectField(label='宿主机', coerce=int)
+    tag_id = SelectField(label='环境', coerce=int)
+    create_time = DateTimeField(label='创建时间')
+    expire_time = DateTimeField(label='过期时间')

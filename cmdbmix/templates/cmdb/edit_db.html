@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% from 'macros/form.html' import render_form %}
+{% from 'macros/breadcrumb.html' import render_breadcrumb %}
+
+{% block title %}编辑数据库{% endblock %}
+
+
+{% block breadcrumb %}
+    {{ render_breadcrumb('资产管理', '编辑数据库') }}
+{% endblock %}
+
+{% block content %}
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6">
+                        <!-- form start -->
+                        {{ render_form(form, db, url_for('db.add_db'), url_for('db.db_manager')) }}
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+{% endblock %}
+
+{% block scripts %}{##}
+    <script>
+
+        $(function () {
+            //Date range picker
+            $('#create_time_picker').datetimepicker({
+                format: 'YYYY-MM-DD hh:mm:ss'
+            });
+            $('#expire_time_picker').datetimepicker({
+                format: 'YYYY-MM-DD hh:mm:ss'
+            });
+        });
+    </script>
+{% endblock %}

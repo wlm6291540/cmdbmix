@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% from 'macros/pagination.html' import render_pagination %}
+{% from 'macros/breadcrumb.html' import render_breadcrumb %}
+
+{% block title %}数据库管理{% endblock %}
+
+{% block breadcrumb %}
+    {{ render_breadcrumb('系统管理', '数据库管理') }}
+{% endblock %}
+
+{% block content %}
+
+    <!-- Main content -->
+    <div class="content">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">数据库列表</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row operation mb-4">
+                    <a type="button" class="btn btn-success ml-2" href="{{ url_for('db.add_db') }}">添加</a>
+                </div>
+                <table id="role-table" class="table table-bordered table-hover text-center">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>名称</th>
+                        <th>版本</th>
+                        <th>公网地址</th>
+                        <th>私网地址</th>
+                        <th>宿主机</th>
+                        <th>环境</th>
+                        <th>创建时间</th>
+                        <th>过期时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in pagination.items %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ item.name or ''}}</td>
+                            <td>{{ item.version or '无' }}</td>
+                            <td>{{ item.public_ip or '无' }}</td>
+                            <td>{{ item.private_ip or '无' }}</td>
+                            <td>{{ item.host.hostname or '无' }}</td>
+                            <td>{{ item.tag.name or '无'  }}</td>
+                            <td>{{ item.expire_time or '无' }}</td>
+                            <td>{{ item.create_time  or '无' }}</td>
+                            <td style="width: 290px;">
+                                <a type="button" class="btn btn-sm btn-primary ml-1"
+                                   href="{{ url_for('db.edit_db', db_id=item.id) }}">修改</a>
+                                <a type="button" class="btn btn-sm btn-danger ml-1"
+                                   href="{{ url_for('db.delete_db', db_id=item.id) }}"
+                                   onclick="return confirm('确定删除?')">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {{ render_pagination(pagination, 'db.db_manager') }}
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.content -->
+{% endblock %}

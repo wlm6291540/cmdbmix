@@ -3,7 +3,7 @@ import os
 import click
 from flask import Flask, g
 
-from cmdbmix.extension import db, login_manager, csrf, socketio
+from cmdbmix.extension import db, login_manager, csrf, socketio, migrate
 from cmdbmix.setting import config
 from cmdbmix.blueprints.auth import auth_bp
 from cmdbmix.blueprints.main import main_bp
@@ -69,4 +69,5 @@ def register_extensions(app):
     db.init_app(app)
     login_manager.init_app(app)
     socketio.init_app(app)
+    migrate.init_app(app)
     # csrf.init_app(app)

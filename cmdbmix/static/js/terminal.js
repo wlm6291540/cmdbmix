@@ -3,18 +3,22 @@ $(document).ready(function () {
     var term = new Terminal({rows: 30, cols: 180});
     term.open(document.getElementById('terminal'));
     var ipaddr = null;
+    var socket = io('/');
+    var termEnv = '\r\n[' + hostname + ']$ ';
+
+    function InitTerminal() {
+        term.clear();
+    }
 
     function runFakeTerminal() {
         if (term._initialized) {
             return;
         }
-
         term._initialized = true;
 
         term.prompt = () => {
             term.write('\r\n[\\u@\\h \\W]\\$ ');
         };
-
         term.writeln('Welcome to Pitta Cmdb');
         term.writeln('This is a local terminal emulation, without a real terminal in the back-end.');
         term.writeln('Type some keys and commands to play around.');
@@ -30,7 +34,7 @@ $(document).ready(function () {
                 command = '';
             } else if (e.domEvent.keyCode === 8) {
                 // Do not delete the prompt
-                if (term._core.buffer.x > 2) {
+                if (term._core.buffer.x > termEnv.length+2) {
                     term.write('\b \b');
                     command = command.substring(0, command.length - 2)
                 }
@@ -51,7 +55,7 @@ $(document).ready(function () {
     }
 
     function prompt(term) {
-        term.write('\r\n[' + hostname + ']$ ');
+        term.write(termEnv);
     }
 
     function exec_command(command) {
@@ -76,10 +80,10 @@ $(document).ready(function () {
             data: JSON.stringify({'ip': ip, 'username': username, 'password': password}),
             headers: {'Content-Type': 'application/json;charset=utf8'},
             success: function (data) {
-                $('#terminal').show();
-                runFakeTerminal();
-                $('#ssh').modal('hide');
                 ipaddr = ip;
+                runFakeTerminal();
+                $('#terminal').show();
+                $('#ssh').modal('hide');
                 toastr.success('连接成功');
             },
             error: function (e) {
@@ -95,11 +99,11 @@ $(document).ready(function () {
             data: JSON.stringify({'ip': ipaddr}),
             headers: {'Content-Type': 'application/json;charset=utf8'},
             success: function (data) {
+                InitTerminal();
                 $('#terminal').hide();
                 toastr.success(data.msg);
             },
             error: function (e) {
-                console.log(e)
                 toastr.error(e.responseJSON.msg);
             }
         })

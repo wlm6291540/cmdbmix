@@ -106,14 +106,14 @@ def close_connect():
 
 
 @socketio.on('connect', namespace='/')
-def ssh_connect():
+def connect():
+    print('connected')
     pass
 
 @socketio.on('new command', namespace='/')
 def new_command(command):
     ip, cmd = command['ip'], command['command'][0:-1]
     client = clients_map.get(ip, None)
-    print(client)
     if client:
         _, stdout, stderr = client.exec_command(cmd)
         stdout, stderr = stdout.read().decode('utf8'), stderr.read().decode('utf8')
